@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="student">
+<head>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+
+    <script type="text/javascript">
+        var student = angular.module('student', []);
+        student.controller('students', function ($scope) {
+            $scope.student = {
+                firstName: "", lastName: ""
+            };
+            $scope.students = [];
+
+            $scope.fullName = function () {
+                $scope.students.push({ firstName: $scope.student.firstName, lastName: $scope.student.lastName });
+                $scope.student = {
+                    firstName: "", lastName: ""
+                };
+                document.getElementById("firstName").focus();
+            };
+            $scope.saveStudent = function (index) {
+                $scope.students.splice(index, 1);
+            };
+        });
+        
+    </script>
+    <style>
+        body {
+            background-color: white
+        }
+        table {
+            width: 100%;
+            border: solid;
+            border-color:black;
+            -ms-align-content: center;
+            -webkit-align-content: center;
+            align-content: center;
+            background-color:white;
+            }        
+        th {
+            font-size:14px;
+            color:black;
+
+        }
+        td {
+            -ms-align-content: center;
+            -webkit-align-content: center;
+            align-content: center;
+            color: #000000;
+            font-size: large;
+            font-style: oblique;
+            border: 1px solid #f1e2c5;
+            padding: 5px;
+            height: 20px;
+            width: 50%;            
+        }
+        tr:not(:first-child):hover {
+            background-color: dodgerblue;
+        }
+        tr:nth-child(even) {
+            background-color:lightpink;
+        }
+        
+    </style>
+
+
+
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1><b>Students</b></h1>
+    <h3><span>Please Enter Student's Name:</span></h3>
+    <div ng-controller="students">
+        <form ng-submit="fullName()">
+            <input type="text" ng-model="student.firstName" placeholder="First Name" id="firstName" required/>
+            <input type="text" ng-model="student.lastName" placeholder="Last Name" required/>
+            <button type="submit">Submit</button>
+        </form>
+        <br />
+        <table style="width:50%">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+            <tr ng-repeat="d in students track by $index">
+                <td>{{d.firstName}}</td>
+                <td>{{d.lastName}}</td>
+                <td><button ng-click="saveStudent($index)">Delete</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
